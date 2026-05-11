@@ -37,6 +37,7 @@ Expected effect:
 | 2026-05-11T05:31Z | Reviewed smoke test metadata | Embedded run still reported Codex harness metadata, OpenAI provider, `gpt-5.5`, and dynamic tools visible through Codex tool registry. |
 | 2026-05-11T05:32Z | Tested device scope approval | CLI device approval flow repeatedly generated new scope-upgrade requests and failed to approve the original request. |
 | 2026-05-11T05:41Z | Ran live Discord harness regression audit | Clean Discord harness path completed with actual browser tool, GitHub public repo access, Discord send, and no fallback/scope/pairing/auth errors observed. |
+| 2026-05-11T05:53Z | Ran full workflow regression audit | Live Discord harness created a branch, committed a public report note, opened PR #1, checked CI/deployments, used the browser tool, and reported to Discord. |
 
 ## Initial Upgrade Observations
 
@@ -55,6 +56,7 @@ Expected effect:
 - The live Discord harness path did not reproduce the CLI scope-upgrade issue. It completed normally.
 - Runtime metadata still did not expose explicit `features.code_mode` or `features.code_mode_only` fields, even though installed beta 3 source contains those flags.
 - Dynamic tools were visible directly in the Codex tool surface, including OpenClaw tools and Codex Apps MCP tools.
+- Full workflow test created public PR #1 and found no CI checks and no Vercel deployments for the public report repository.
 
 ## Beta 3 Smoke Test Results
 
@@ -93,6 +95,25 @@ The live Discord harness regression test completed successfully after the beta 3
 | Discord message send | PASS | OpenClaw message tool posted progress and completion messages. |
 | Fallback/timeout/scope/pairing/auth errors | PASS | None were observed in the live Discord harness path. |
 
+## Full Workflow Regression Audit
+
+The live Discord harness completed a full GitHub workflow against this public report repository.
+
+PR: https://github.com/jeffjhunter/openclaw-codex-harness-test-report/pull/1
+
+| Check | Result | Notes |
+| --- | --- | --- |
+| Branch creation | PASS | Created `beta3/full-workflow-regression-20260511-0550`. |
+| Commit | PASS | Commit `a0c07da` added one public report note. |
+| PR creation | PASS | Opened PR #1 against `main`. |
+| PR mergeability | PASS | PR was reported mergeable. |
+| CI/check status | NOT AVAILABLE | `statusCheckRollup` was empty; no checks were configured/reported. |
+| Vercel preview | NOT AVAILABLE | GitHub deployments API returned no deployments for the repo. |
+| Browser tool | PASS | Actual OpenClaw browser tool captured a screenshot of the public repo/PR. |
+| Discord report | PASS | Completion summary was posted to Discord. |
+| Fallback/timeout/scope/pairing/auth errors | PASS | None were observed in the full live Discord workflow. |
+| PR body correction | PASS WITH NOTE | Initial PR body had a shell quoting issue; PR was created and body was corrected with GitHub CLI. |
+
 ## Regression Tests To Run
 
 | Test | Status |
@@ -100,9 +121,9 @@ The live Discord harness regression test completed successfully after the beta 3
 | Verify Codex harness thread exposes or implies code mode | Partial |
 | Verify dynamic tools are discoverable through Codex-native surface | Pass |
 | Repeat browser automation with actual OpenClaw browser tool | Pass |
-| Repeat GitHub branch/commit/PR workflow | Partial |
-| Repeat CI status inspection | Pending |
-| Repeat Vercel preview detection and HTTP verification | Pending |
+| Repeat GitHub branch/commit/PR workflow | Pass |
+| Repeat CI status inspection | Not available |
+| Repeat Vercel preview detection and HTTP verification | Not available |
 | Repeat Discord live reaction behavior | Pass |
 | Check runtime model/provider/fallback observability | Partial |
 

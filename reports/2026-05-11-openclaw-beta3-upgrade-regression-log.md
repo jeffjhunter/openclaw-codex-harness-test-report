@@ -38,6 +38,7 @@ Expected effect:
 | 2026-05-11T05:32Z | Tested device scope approval | CLI device approval flow repeatedly generated new scope-upgrade requests and failed to approve the original request. |
 | 2026-05-11T05:41Z | Ran live Discord harness regression audit | Clean Discord harness path completed with actual browser tool, GitHub public repo access, Discord send, and no fallback/scope/pairing/auth errors observed. |
 | 2026-05-11T05:53Z | Ran full workflow regression audit | Live Discord harness created a branch, committed a public report note, opened PR #1, checked CI/deployments, used the browser tool, and reported to Discord. |
+| 2026-05-11T07:31Z | Ran hard agentic dashboard workflow | Harness created a static dashboard from metrics data, opened PR #8, verified GitHub/PR browser screenshot, and identified local browser policy blockers for localhost/file URLs. |
 
 ## Initial Upgrade Observations
 
@@ -57,6 +58,7 @@ Expected effect:
 - Runtime metadata still did not expose explicit `features.code_mode` or `features.code_mode_only` fields, even though installed beta 3 source contains those flags.
 - Dynamic tools were visible directly in the Codex tool surface, including OpenClaw tools and Codex Apps MCP tools.
 - Full workflow test created public PR #1 and found no CI checks and no Vercel deployments for the public report repository.
+- Hard agentic dashboard workflow created public PR #8 and confirmed the dashboard data was derived from existing metrics files. Local HTTP checks passed, but the actual OpenClaw browser tool could not navigate to localhost/file targets due browser policy/sandbox restrictions.
 
 ## Beta 3 Smoke Test Results
 
@@ -114,6 +116,23 @@ PR: https://github.com/jeffjhunter/openclaw-codex-harness-test-report/pull/1
 | Fallback/timeout/scope/pairing/auth errors | PASS | None were observed in the full live Discord workflow. |
 | PR body correction | PASS WITH NOTE | Initial PR body had a shell quoting issue; PR was created and body was corrected with GitHub CLI. |
 
+## Hard Agentic Dashboard Workflow
+
+PR: https://github.com/jeffjhunter/openclaw-codex-harness-test-report/pull/8
+
+| Check | Result | Notes |
+| --- | --- | --- |
+| Branch creation | PASS | Created `beta3/benchmark-dashboard-20260511`. |
+| Commit | PASS | Commit `e846ef2` added the dashboard files. |
+| Files created | PASS | `dashboard/index.html`, `dashboard/data.json`, `dashboard/README.md`. |
+| Data derivation | PASS | `dashboard/data.json` was derived from committed metrics files; unavailable metrics remain marked unavailable/null. |
+| Local HTTP checks | PASS | Local HTTP checks returned 200 for `/dashboard/` and `/dashboard/data.json`. |
+| Local browser screenshot | FAIL / POLICY | `openclaw_browser` localhost navigation was blocked by policy; sandbox retry reported sandbox browser unavailable; file URL retry was blocked as unsupported protocol. |
+| GitHub/PR browser screenshot | PASS | Actual OpenClaw browser tool opened the GitHub PR page and captured a screenshot. |
+| PR/check status | NOT AVAILABLE | PR was mergeable; `statusCheckRollup` was empty. |
+| Deployments/Vercel | NOT AVAILABLE | GitHub deployments count was 0; Vercel was not checked. |
+| Fallback/timeout/scope/pairing/auth errors | PASS | None observed. |
+
 ## Regression Tests To Run
 
 | Test | Status |
@@ -126,6 +145,7 @@ PR: https://github.com/jeffjhunter/openclaw-codex-harness-test-report/pull/1
 | Repeat Vercel preview detection and HTTP verification | Not available |
 | Repeat Discord live reaction behavior | Pass |
 | Check runtime model/provider/fallback observability | Partial |
+| Hard agentic dashboard workflow | Pass with local browser policy limitation |
 
 ## Open Questions
 
@@ -135,6 +155,7 @@ PR: https://github.com/jeffjhunter/openclaw-codex-harness-test-report/pull/1
 4. Does beta 3 change browser shell CLI authentication behavior from the Codex app-server context?
 5. Why does the CLI device approval flow create a new scope-upgrade request while attempting to approve the previous one?
 6. Should beta 3 expose code-mode/code-mode-only state through a status or runtime metadata field for easier verification?
+7. Should `openclaw_browser` support localhost/file dashboard verification from Codex harness runs, or is the current policy block intentional?
 
 ## Developer Feedback
 

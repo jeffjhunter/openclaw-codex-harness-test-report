@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenClaw Codex Harness Benchmark Dashboard</title>
+  <style>
+    :root { --bg:#f6f4ef; --panel:#fffdfa; --ink:#1e2528; --muted:#5c666b; --line:#d9d5ca; --green:#1f7a4d; --blue:#255f8d; --gold:#966b16; --shadow:0 10px 24px rgba(24,32,36,.08); }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.45; }
+    header { border-bottom:1px solid var(--line); background:#ebe7dc; }
+    .wrap { width:min(1180px, calc(100% - 32px)); margin:0 auto; }
+    .hero { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:28px; padding:34px 0 26px; align-items:end; }
+    h1 { margin:0; font-size:clamp(30px,5vw,56px); line-height:1; letter-spacing:0; }
+    .lede { margin:14px 0 0; max-width:760px; color:var(--muted); font-size:16px; }
+    .source-box,.metric,.card,.limit-list,.table-wrap { border:1px solid var(--line); background:var(--panel); border-radius:8px; box-shadow:var(--shadow); }
+    .source-box { min-width:250px; padding:14px; }
+    .label { display:block; color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.08em; }
+    .metric-row,.cards,.limits,.runs { padding:22px 0; }
+    .metric-grid,.card-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+    .metric,.card { padding:16px; }
+    .metric strong { display:block; margin-top:5px; font-size:26px; }
+    .section-title { display:flex; justify-content:space-between; align-items:baseline; gap:18px; margin:0 0 12px; }
+    .section-title h2 { margin:0; font-size:22px; }
+    .section-title p { margin:0; color:var(--muted); }
+    .card h3 { margin:0 0 10px; font-size:18px; }
+    .statline { display:flex; justify-content:space-between; gap:12px; border-top:1px solid var(--line); padding-top:10px; margin-top:10px; color:var(--muted); }
+    .pill { display:inline-flex; border-radius:999px; padding:4px 9px; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; }
+    .pass { color:var(--green); background:#e3f2e9; }
+    .review { color:var(--gold); background:#f5ead2; }
+    .limit-list { margin:0; padding:16px 18px 16px 32px; color:var(--muted); }
+    .limit-list li + li { margin-top:7px; }
+    .table-wrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; min-width:880px; }
+    th,td { padding:11px 12px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+    th { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.07em; background:#f1eee7; }
+    td { font-size:14px; }
+    a { color:var(--blue); text-decoration-thickness:1px; text-underline-offset:3px; }
+    code { font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace; font-size:12px; overflow-wrap:anywhere; }
+    footer { color:var(--muted); padding:16px 0 34px; }
+    @media (max-width:900px) { .hero,.metric-grid,.card-grid { grid-template-columns:1fr; } .source-box { min-width:0; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <div>
+        <span class="label">OpenClaw Codex Harness</span>
+        <h1>Beta 3 Benchmark Dashboard</h1>
+        <p class="lede">A self-contained view of committed benchmark metrics for the public harness report repository. Values are derived from markdown artifacts in <code>metrics/</code>; unavailable fields stay marked unavailable.</p>
+      </div>
+      <aside class="source-box">
+        <span class="label">Source</span>
+        <strong id="sourceRepo">Loading</strong>
+        <p id="generatedAt" class="lede">Loading data.json</p>
+      </aside>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="metric-row">
+      <div class="metric-grid">
+        <div class="metric"><span class="label">Task Groups</span><strong id="taskGroupCount">--</strong></div>
+        <div class="metric"><span class="label">Runs</span><strong id="totalRunCount">--</strong></div>
+        <div class="metric"><span class="label">Overall Status</span><strong id="overallStatus">--</strong></div>
+        <div class="metric"><span class="label">Fastest Avg</span><strong id="fastestAverage">--</strong></div>
+      </div>
+    </section>
+    <section class="cards">
+      <div class="section-title"><h2>Benchmark Groups</h2><p>Run counts, averages, and status from source artifacts.</p></div>
+      <div id="groupCards" class="card-grid"></div>
+    </section>
+    <section class="limits">
+      <div class="section-title"><h2>Known Limitations</h2><p>Constraints preserved from the metrics reports.</p></div>
+      <ul id="limitations" class="limit-list"></ul>
+    </section>
+    <section class="runs">
+      <div class="section-title"><h2>Run Evidence</h2><p>One row per committed run file.</p></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Run</th><th>Group</th><th>Duration</th><th>Status</th><th>PR</th><th>Checks / Deployments</th><th>Source</th></tr></thead>
+          <tbody id="runRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <footer class="wrap"><span id="fileCount">Source files: unavailable</span></footer>
+  <script>
+    var unavailable = "Unavailable";
+    function fmt(value) { return value === null || value === undefined || value === "" ? unavailable : value; }
+    function seconds(value) { return typeof value === "number" ? value.toFixed(3) + "s" : unavailable; }
+    function link(url, text) { return url ? "<a href=\"" + url + "\">" + text + "</a>" : unavailable; }
+    fetch("data.json", { cache: "no-store" }).then(function(response) {
+      if (!response.ok) throw new Error("Unable to load data.json: " + response.status);
+      return response.json();
+    }).then(function(data) {
+      document.getElementById("sourceRepo").innerHTML = link(data.source.repository, "Public report repo");
+      document.getElementById("generatedAt").textContent = "Generated " + data.generatedAtUtc;
+      document.getElementById("taskGroupCount").textContent = data.overview.taskGroupCount;
+      document.getElementById("totalRunCount").textContent = data.overview.totalRunCount;
+      document.getElementById("overallStatus").textContent = data.overview.overallStatus.toUpperCase();
+      document.getElementById("fileCount").textContent = "Source files: " + data.source.sourceFiles.length;
+      var fastest = data.groups.filter(function(group) { return typeof group.averageDurationSeconds === "number"; }).sort(function(a, b) { return a.averageDurationSeconds - b.averageDurationSeconds; })[0];
+      document.getElementById("fastestAverage").textContent = fastest ? fastest.name + " " + seconds(fastest.averageDurationSeconds) : unavailable;
+      document.getElementById("groupCards").innerHTML = data.groups.map(function(group) {
+        return "<article class=\"card\"><h3>" + group.name + "</h3><span class=\"pill " + group.status + "\">" + group.status + "</span><div class=\"statline\"><span>Runs</span><strong>" + group.runCount + "</strong></div><div class=\"statline\"><span>Average</span><strong>" + seconds(group.averageDurationSeconds) + "</strong></div></article>";
+      }).join("");
+      document.getElementById("limitations").innerHTML = data.overview.knownLimitations.map(function(item) { return "<li>" + item + "</li>"; }).join("");
+      document.getElementById("runRows").innerHTML = data.runs.map(function(run) {
+        return "<tr><td><strong>" + run.title + "</strong></td><td>" + run.group + "</td><td>" + seconds(run.durationSeconds) + "</td><td><span class=\"pill " + (run.pass ? "pass" : "review") + "\">" + (run.pass ? "pass" : "review") + "</span></td><td>" + link(run.prUrl, run.prUrl ? run.prUrl.split("/").pop() : "") + "</td><td>" + fmt(run.checkStatus) + "<br>" + fmt(run.deploymentStatus) + "</td><td><code>" + run.file + "</code></td></tr>";
+      }).join("");
+    }).catch(function(error) {
+      document.body.innerHTML = "<main class=\"wrap\"><h1>Dashboard load failed</h1><p>" + error.message + "</p></main>";
+    });
+  </script>
+</body>
+</html>

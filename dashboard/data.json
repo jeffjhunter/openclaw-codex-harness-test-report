@@ -1,0 +1,81 @@
+{
+  "generatedAtUtc": "2026-05-11T07:23:53.348Z",
+  "source": {
+    "repository": "https://github.com/jeffjhunter/openclaw-codex-harness-test-report",
+    "derivation": "Parsed committed metrics markdown files from the local checkout on the dashboard branch. Missing values are marked unavailable/null.",
+    "sourceFiles": [
+      "metrics/README.md",
+      "metrics/beta2-historical-baseline.md",
+      "metrics/beta3-benchmark-plan.md",
+      "metrics/runs/2026-05-11-beta3-browser-run-1.md",
+      "metrics/runs/2026-05-11-beta3-browser-run-2.md",
+      "metrics/runs/2026-05-11-beta3-browser-run-3.md",
+      "metrics/runs/2026-05-11-beta3-full-workflow-run-1.md",
+      "metrics/runs/2026-05-11-beta3-full-workflow-run-2.md",
+      "metrics/runs/2026-05-11-beta3-full-workflow-run-3.md",
+      "metrics/runs/2026-05-11-beta3-github-pr-run-1.md",
+      "metrics/runs/2026-05-11-beta3-github-pr-run-2.md",
+      "metrics/runs/2026-05-11-beta3-github-pr-run-3.md",
+      "metrics/runs/2026-05-11-beta3-minimal-file-run-1.md",
+      "metrics/runs/2026-05-11-beta3-minimal-file-run-2.md",
+      "metrics/runs/2026-05-11-beta3-minimal-file-run-3.md",
+      "metrics/summaries/2026-05-11-beta3-benchmark-rollup.md",
+      "metrics/summaries/2026-05-11-beta3-browser-summary.md",
+      "metrics/summaries/2026-05-11-beta3-full-workflow-summary.md",
+      "metrics/summaries/2026-05-11-beta3-github-pr-summary.md",
+      "metrics/summaries/2026-05-11-beta3-minimal-file-summary.md"
+    ]
+  },
+  "overview": {
+    "taskGroupCount": 4,
+    "totalRunCount": 12,
+    "overallStatus": "pass",
+    "knownLimitations": [
+      "Per-run token usage is unavailable; source files expose session-level snapshots only.",
+      "Exact isolated per-run total tool-call counts are unavailable.",
+      "Beta 2 data is historical rather than a controlled same-prompt benchmark.",
+      "This repository reported no CI checks or GitHub deployments in benchmark runs, so CI and Vercel timing were unavailable.",
+      "Prior screenshot captures are described in source files, but exact prior screenshot paths are unavailable in committed metric files."
+    ]
+  },
+  "groups": [
+    {
+      "name": "Minimal file",
+      "runCount": 3,
+      "averageDurationSeconds": 0.036,
+      "status": "pass"
+    },
+    {
+      "name": "Browser",
+      "runCount": 3,
+      "averageDurationSeconds": 2.221,
+      "status": "pass"
+    },
+    {
+      "name": "GitHub PR",
+      "runCount": 3,
+      "averageDurationSeconds": 6.575,
+      "status": "pass"
+    },
+    {
+      "name": "Full workflow",
+      "runCount": 3,
+      "averageDurationSeconds": 8.477,
+      "status": "pass"
+    }
+  ],
+  "runs": [
+    {"title":"Beta 3 Minimal File Benchmark - Run 1","group":"Minimal file","durationSeconds":0.036,"file":"metrics/runs/2026-05-11-beta3-minimal-file-run-1.md","prUrl":null,"checkStatus":null,"deploymentStatus":null,"pass":true},
+    {"title":"Beta 3 Minimal File Benchmark - Run 2","group":"Minimal file","durationSeconds":0.035,"file":"metrics/runs/2026-05-11-beta3-minimal-file-run-2.md","prUrl":null,"checkStatus":null,"deploymentStatus":null,"pass":true},
+    {"title":"Beta 3 Minimal File Benchmark - Run 3","group":"Minimal file","durationSeconds":0.036,"file":"metrics/runs/2026-05-11-beta3-minimal-file-run-3.md","prUrl":null,"checkStatus":null,"deploymentStatus":null,"pass":true},
+    {"title":"Beta 3 Browser Benchmark - Run 1","group":"Browser","durationSeconds":1.95,"file":"metrics/runs/2026-05-11-beta3-browser-run-1.md","prUrl":null,"checkStatus":null,"deploymentStatus":null,"pass":true},
+    {"title":"Beta 3 Browser Benchmark - Run 2","group":"Browser","durationSeconds":2.391,"file":"metrics/runs/2026-05-11-beta3-browser-run-2.md","prUrl":null,"checkStatus":null,"deploymentStatus":null,"pass":true},
+    {"title":"Beta 3 Browser Benchmark - Run 3","group":"Browser","durationSeconds":2.321,"file":"metrics/runs/2026-05-11-beta3-browser-run-3.md","prUrl":null,"checkStatus":null,"deploymentStatus":null,"pass":true},
+    {"title":"Beta 3 GitHub PR Benchmark - Run 1","group":"GitHub PR","durationSeconds":6.807,"file":"metrics/runs/2026-05-11-beta3-github-pr-run-1.md","prUrl":"https://github.com/jeffjhunter/openclaw-codex-harness-test-report/pull/2","checkStatus":"no checks reported; statusCheckRollup was empty","deploymentStatus":"no GitHub deployment reported; Vercel was not checked","pass":true},
+    {"title":"Beta 3 GitHub PR Benchmark - Run 2","group":"GitHub PR","durationSeconds":6.429,"file":"metrics/runs/2026-05-11-beta3-github-pr-run-2.md","prUrl":"https://github.com/jeffjhunter/openclaw-codex-harness-test-report/pull/3","checkStatus":"no checks reported; statusCheckRollup was empty","deploymentStatus":"no GitHub deployment reported; Vercel was not checked","pass":true},
+    {"title":"Beta 3 GitHub PR Benchmark - Run 3","group":"GitHub PR","durationSeconds":6.488,"file":"metrics/runs/2026-05-11-beta3-github-pr-run-3.md","prUrl":"https://github.com/jeffjhunter/openclaw-codex-harness-test-report/pull/4","checkStatus":"no checks reported; statusCheckRollup was empty","deploymentStatus":"no GitHub deployment reported; Vercel was not checked","pass":true},
+    {"title":"Beta 3 Full Workflow Benchmark - Run 1","group":"Full workflow","durationSeconds":9.23,"file":"metrics/runs/2026-05-11-beta3-full-workflow-run-1.md","prUrl":"https://github.com/jeffjhunter/openclaw-codex-harness-test-report/pull/5","checkStatus":"no checks reported; statusCheckRollup was empty","deploymentStatus":"no GitHub deployment reported; Vercel was not checked","pass":true},
+    {"title":"Beta 3 Full Workflow Benchmark - Run 2","group":"Full workflow","durationSeconds":7.45,"file":"metrics/runs/2026-05-11-beta3-full-workflow-run-2.md","prUrl":"https://github.com/jeffjhunter/openclaw-codex-harness-test-report/pull/6","checkStatus":"no checks reported; statusCheckRollup was empty","deploymentStatus":"no GitHub deployment reported; Vercel was not checked","pass":true},
+    {"title":"Beta 3 Full Workflow Benchmark - Run 3","group":"Full workflow","durationSeconds":8.752,"file":"metrics/runs/2026-05-11-beta3-full-workflow-run-3.md","prUrl":"https://github.com/jeffjhunter/openclaw-codex-harness-test-report/pull/7","checkStatus":"no checks reported; statusCheckRollup was empty","deploymentStatus":"no GitHub deployment reported; Vercel was not checked","pass":true}
+  ]
+}

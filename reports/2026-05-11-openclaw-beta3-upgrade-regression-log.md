@@ -36,6 +36,7 @@ Expected effect:
 | 2026-05-11T05:28Z | Ran direct CLI agent smoke test | Gateway route failed due pending scope upgrade; command fell back to embedded execution. |
 | 2026-05-11T05:31Z | Reviewed smoke test metadata | Embedded run still reported Codex harness metadata, OpenAI provider, `gpt-5.5`, and dynamic tools visible through Codex tool registry. |
 | 2026-05-11T05:32Z | Tested device scope approval | CLI device approval flow repeatedly generated new scope-upgrade requests and failed to approve the original request. |
+| 2026-05-11T05:41Z | Ran live Discord harness regression audit | Clean Discord harness path completed with actual browser tool, GitHub public repo access, Discord send, and no fallback/scope/pairing/auth errors observed. |
 
 ## Initial Upgrade Observations
 
@@ -51,6 +52,9 @@ Expected effect:
 - The direct `openclaw agent` CLI path also hit a gateway scope-upgrade/pairing failure and fell back to embedded execution.
 - The embedded fallback smoke test reported Codex harness metadata, but this should not be treated as equivalent to a clean gateway-routed Discord harness test.
 - The CLI device approval command could identify the pending scope-upgrade request, but explicit approval generated a new pending request and then failed with `unknown requestId`.
+- The live Discord harness path did not reproduce the CLI scope-upgrade issue. It completed normally.
+- Runtime metadata still did not expose explicit `features.code_mode` or `features.code_mode_only` fields, even though installed beta 3 source contains those flags.
+- Dynamic tools were visible directly in the Codex tool surface, including OpenClaw tools and Codex Apps MCP tools.
 
 ## Beta 3 Smoke Test Results
 
@@ -71,17 +75,35 @@ Expected effect:
 | CLI device scope approval | FAIL | Approval flow generated another scope-upgrade request and then failed with `unknown requestId`. |
 | Browser shell CLI | FAIL | Browser CLI continued to fail on gateway scope-upgrade/pairing. |
 
+## Live Discord Harness Regression Audit
+
+The live Discord harness regression test completed successfully after the beta 3 upgrade.
+
+| Check | Result | Notes |
+| --- | --- | --- |
+| OpenClaw beta 3 confirmed | PASS | Harness reported `2026.5.10-beta.3`. |
+| Codex plugin beta 3 confirmed | PASS | Harness found Codex plugin install metadata for `2026.5.10-beta.3`. |
+| Codex harness path | PASS WITH LIMITATION | Codex/OpenClaw harness context and tools were present; no separate `/status` proof was exposed. |
+| `features.code_mode=true` runtime visibility | NOT VISIBLE | The exact feature flag was not exposed in runtime metadata available to the harness. |
+| `features.code_mode_only=true` runtime visibility | NOT VISIBLE | The exact feature flag was not exposed in runtime metadata available to the harness. |
+| Dynamic tools discoverable | PASS | Harness observed 208 visible tools through tool introspection. |
+| Tool layer assessment | PASS | Tools appeared as Codex-native declarations, including directly surfaced OpenClaw and Codex Apps MCP tools. No explicit `tool_search` tool was visible. |
+| Browser tool | PASS | Actual OpenClaw browser tool opened the public report repository, captured a snapshot, and saved a screenshot. |
+| GitHub public repo access | PASS | GitHub CLI returned public repository metadata. |
+| Discord message send | PASS | OpenClaw message tool posted progress and completion messages. |
+| Fallback/timeout/scope/pairing/auth errors | PASS | None were observed in the live Discord harness path. |
+
 ## Regression Tests To Run
 
 | Test | Status |
 | --- | --- |
 | Verify Codex harness thread exposes or implies code mode | Partial |
 | Verify dynamic tools are discoverable through Codex-native surface | Pass |
-| Repeat browser automation with actual OpenClaw browser tool | Pending |
-| Repeat GitHub branch/commit/PR workflow | Pending |
+| Repeat browser automation with actual OpenClaw browser tool | Pass |
+| Repeat GitHub branch/commit/PR workflow | Partial |
 | Repeat CI status inspection | Pending |
 | Repeat Vercel preview detection and HTTP verification | Pending |
-| Repeat Discord live reaction behavior | Partial |
+| Repeat Discord live reaction behavior | Pass |
 | Check runtime model/provider/fallback observability | Partial |
 
 ## Open Questions
@@ -91,3 +113,4 @@ Expected effect:
 3. Does beta 3 preserve Discord live reaction behavior after upgrade?
 4. Does beta 3 change browser shell CLI authentication behavior from the Codex app-server context?
 5. Why does the CLI device approval flow create a new scope-upgrade request while attempting to approve the previous one?
+6. Should beta 3 expose code-mode/code-mode-only state through a status or runtime metadata field for easier verification?

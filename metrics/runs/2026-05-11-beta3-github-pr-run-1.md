@@ -19,7 +19,7 @@
 - Branch name: `beta3/github-pr-benchmark-run-1-20260511`
 - Initial artifact commit hash: `d1c6ca82ec4b964ca2f16563264088c2b40f0ed6`
 - PR URL: `https://github.com/jeffjhunter/openclaw-codex-harness-test-report/pull/2`
-- PR/check status: `No check output`
+- PR/check status: `no checks reported on the 'beta3/github-pr-benchmark-run-1-20260511' branch; statusCheckRollup was empty`
 - GitHub deployment reported: `no`
 - Vercel checked: `no, because GitHub reported no deployment`
 
@@ -67,4 +67,3 @@ No GitHub deployment reported; Vercel was not checked.
 ## Metadata Update
 
 This file was updated after PR creation to record the PR URL and check status. The initial artifact commit hash above is the first commit created for the run.
-

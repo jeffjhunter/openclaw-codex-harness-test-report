@@ -1,0 +1,41 @@
+{
+  "totalRuns": 12,
+  "passRate": "100%",
+  "avgDuration": "4.327s",
+  "taskGroups": [
+    {
+      "group": "Minimal file artifact",
+      "count": 3,
+      "pass": 3,
+      "fail": 0,
+      "avgDuration": "0.0357s"
+    },
+    {
+      "group": "Browser task",
+      "count": 3,
+      "pass": 3,
+      "fail": 0,
+      "avgDuration": "2.221s"
+    },
+    {
+      "group": "GitHub PR task",
+      "count": 3,
+      "pass": 3,
+      "fail": 0,
+      "avgDuration": "6.575s"
+    },
+    {
+      "group": "Full workflow task",
+      "count": 3,
+      "pass": 3,
+      "fail": 0,
+      "avgDuration": "8.477s"
+    }
+  ],
+  "limitations": [
+    "Per-run token usage not isolated by runtime metadata (session-level snapshots only)",
+    "No CI or deployment checks configured in repository",
+    "Beta 2 historical data not controlled — cannot prove speed/token efficiency improvements",
+    "Durations measured are task-phase durations, not full end-to-end user-visible latency"
+  ]
+}

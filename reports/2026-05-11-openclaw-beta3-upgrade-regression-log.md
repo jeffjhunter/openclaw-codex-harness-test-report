@@ -135,3 +135,16 @@ PR: https://github.com/jeffjhunter/openclaw-codex-harness-test-report/pull/1
 4. Does beta 3 change browser shell CLI authentication behavior from the Codex app-server context?
 5. Why does the CLI device approval flow create a new scope-upgrade request while attempting to approve the previous one?
 6. Should beta 3 expose code-mode/code-mode-only state through a status or runtime metadata field for easier verification?
+
+## Developer Feedback
+
+OpenClaw developer feedback after the first beta 3 report:
+
+- Code mode is experimental.
+- The current focus should be Codex specifically, because code mode is default there.
+- CLI scope-upgrade behavior is not yet known and needs separate research.
+
+Testing direction based on that feedback:
+
+- Keep performance/token-efficiency benchmarks scoped to live Discord Codex harness runs.
+- Treat CLI scope-upgrade approval as a separate finding, not as evidence for or against Codex code-mode behavior.

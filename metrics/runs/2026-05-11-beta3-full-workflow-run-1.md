@@ -17,23 +17,25 @@
 ## Workflow
 
 - Branch name: `beta3/full-workflow-benchmark-run-1-20260511`
-- Commit hash: pending
-- PR URL: pending
-- PR/check status: pending
-- GitHub deployment/Vercel status: pending
-- Browser screenshot path: pending
+- Commit hash: `ac6c1d360e73b17336667635d1521d0594a19ea3`
+- PR URL: `https://github.com/jeffjhunter/openclaw-codex-harness-test-report/pull/5`
+- PR/check status: `no checks reported; statusCheckRollup empty`
+- GitHub deployment/Vercel status: `No GitHub deployment reported; Vercel was not checked.`
+- Browser screenshot path: `/home/aerofarmai/.openclaw/media/browser/bc6abf86-8579-4c3b-8fc6-2d6e63bfd8e7.png`
 
 ## Browser Actions Used
 
 Actual OpenClaw browser tool was required and used. This was not `openclaw browser` shell CLI and not `google-chrome --headless`.
 
-- pending
+- `openclaw_browser action=open`
+- `openclaw_browser action=snapshot`
+- `openclaw_browser action=screenshot`
 
 ## Timing
 
 - Start time UTC: `2026-05-11T07:00:09.017Z`
-- End time UTC: pending
-- Duration seconds: pending
+- End time UTC: `2026-05-11T07:00:18.247Z`
+- Duration seconds: `9.230`
 
 ## Token Usage
 
@@ -65,4 +67,8 @@ Tools used during this benchmark sequence:
 - Scope-upgrade errors: none observed.
 - Auth errors: none observed.
 - Private repo links: none used.
+
+## Metadata Update
+
+This file was updated after PR creation and browser capture to record PR/check/deployment/screenshot evidence. The commit hash above is the initial artifact commit created for the run.
 

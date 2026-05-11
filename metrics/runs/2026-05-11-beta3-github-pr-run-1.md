@@ -17,17 +17,17 @@
 ## GitHub Workflow
 
 - Branch name: `beta3/github-pr-benchmark-run-1-20260511`
-- Initial artifact commit hash: pending
-- PR URL: pending
-- PR/check status: pending
-- GitHub deployment reported: pending
-- Vercel checked: pending
+- Initial artifact commit hash: `d1c6ca82ec4b964ca2f16563264088c2b40f0ed6`
+- PR URL: `https://github.com/jeffjhunter/openclaw-codex-harness-test-report/pull/2`
+- PR/check status: `No check output`
+- GitHub deployment reported: `no`
+- Vercel checked: `no, because GitHub reported no deployment`
 
 ## Timing
 
 - Start time UTC: `2026-05-11T06:45:07.174Z`
-- End time UTC: pending
-- Duration seconds: pending
+- End time UTC: `2026-05-11T06:45:13.981Z`
+- Duration seconds: `6.807`
 
 ## Token Usage
 
@@ -59,4 +59,12 @@ Tools used during this benchmark sequence:
 - Auth errors: none observed.
 - Browser usage: intentionally not used for this task.
 - Private repo links: none used.
+
+## Deployment Check
+
+No GitHub deployment reported; Vercel was not checked.
+
+## Metadata Update
+
+This file was updated after PR creation to record the PR URL and check status. The initial artifact commit hash above is the first commit created for the run.
 
